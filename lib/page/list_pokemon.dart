@@ -9,9 +9,11 @@ class ListPokemon extends StatefulWidget {
 
 class _ListPokemonState extends State<ListPokemon> {
   List<PokemonModel> _pokemons = [];
-
-  _getPokemons() {
-    PokemonServiceApi.getPokemons().then((pokemons) {
+  int _pageNumber = 1;
+  bool _isSearch = false;
+  _getPokemons(page) {
+    _pokemons = [];
+    PokemonServiceApi.getPokemons(page).then((pokemons) {
       setState(() {
         _pokemons.addAll(pokemons);
       });
@@ -22,14 +24,47 @@ class _ListPokemonState extends State<ListPokemon> {
     _pokemons = [];
     PokemonServiceApi.getPokemon(name).then((pokemons) {
       setState(() {
+        if (name == '') {
+          _isSearch = false;
+          _pageNumber = 1;
+          _getPokemons(1);
+        } else {
+          _isSearch = true;
+        }
         _pokemons.addAll(pokemons);
       });
     });
   }
 
+  _downPage() {
+    if (_pageNumber == 0) {
+      setState(() {
+        _pageNumber = 0;
+      });
+    } else {
+      setState(() {
+        _pageNumber--;
+      });
+    }
+    _getPokemons(_pageNumber);
+  }
+
+  _upPage() {
+    if (_pageNumber == 123) {
+      setState(() {
+        _pageNumber = 123;
+      });
+    } else {
+      setState(() {
+        _pageNumber++;
+      });
+    }
+    _getPokemons(_pageNumber);
+  }
+
   @override
   void initState() {
-    _getPokemons();
+    _getPokemons(1);
     super.initState();
   }
 
@@ -40,13 +75,30 @@ class _ListPokemonState extends State<ListPokemon> {
         title: TextField(
           decoration: InputDecoration(
               border: InputBorder.none, hintText: 'Rechercher un pokemon'),
-          onSubmitted: (String value) {
+          onChanged: (String value) {
             _getPokemon(value);
           },
         ),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.search), onPressed: () {}),
-        ],
+        actions: !_isSearch
+            ? <Widget>[
+                IconButton(
+                    icon: Icon(Icons.keyboard_arrow_left),
+                    onPressed: () {
+                      _downPage();
+                    }),
+                Center(
+                  child: Text(
+                    '$_pageNumber',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: () {
+                      _upPage();
+                    }),
+              ]
+            : null,
       ),
       body: ListView.builder(
         itemBuilder: (context, position) {

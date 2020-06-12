@@ -5,8 +5,9 @@ import 'package:pokemonapp/model/pokemon_model.dart';
 
 class PokemonServiceApi {
   static final String baseUrl = "https://api.pokemontcg.io/v1";
-  static Future<List<PokemonModel>> getPokemons() async {
-    var url = baseUrl + '/cards';
+  static Future<List<PokemonModel>> getPokemons(page) async {
+    var url = baseUrl + '/cards?page=' + page.toString();
+    print(url);
     var response = await http.get(url);
     Map<String, dynamic> responseJSON = jsonDecode(response.body);
 
