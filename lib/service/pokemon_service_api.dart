@@ -15,8 +15,19 @@ class PokemonServiceApi {
 
     /*await DefaultCacheManager().downloadFile(pokemonModel.file);*/
     /*await Future.delayed(Duration(seconds: 2));*/
-    print('test');
-    print(pokemons);
+    return pokemons;
+  }
+
+  static Future<List<PokemonModel>> getPokemon(name) async {
+    var url = baseUrl + '/cards?name=' + name;
+    var response = await http.get(url);
+    Map<String, dynamic> responseJSON = jsonDecode(response.body);
+
+    List<PokemonModel> pokemons = List<PokemonModel>.from(
+        responseJSON["cards"].map((e) => PokemonModel.fromJson(e)).toList());
+
+    /*await DefaultCacheManager().downloadFile(pokemonModel.file);*/
+    /*await Future.delayed(Duration(seconds: 2));*/
     return pokemons;
   }
 }

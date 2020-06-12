@@ -18,10 +18,18 @@ class _ListPokemonState extends State<ListPokemon> {
     });
   }
 
+  _getPokemon(name) {
+    _pokemons = [];
+    PokemonServiceApi.getPokemon(name).then((pokemons) {
+      setState(() {
+        _pokemons.addAll(pokemons);
+      });
+    });
+  }
+
   @override
   void initState() {
     _getPokemons();
-    print('test');
     super.initState();
   }
 
@@ -29,7 +37,16 @@ class _ListPokemonState extends State<ListPokemon> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Bourg Palette'),
+        title: TextField(
+          decoration: InputDecoration(
+              border: InputBorder.none, hintText: 'Rechercher un pokemon'),
+          onSubmitted: (String value) {
+            _getPokemon(value);
+          },
+        ),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+        ],
       ),
       body: ListView.builder(
         itemBuilder: (context, position) {

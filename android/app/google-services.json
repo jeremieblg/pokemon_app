@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "126650109246",
+    "firebase_url": "https://pokemontcg-jeremieb.firebaseio.com",
+    "project_id": "pokemontcg-jeremieb",
+    "storage_bucket": "pokemontcg-jeremieb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126650109246:android:752fe13565bf607c0bf06f",
+        "android_client_info": {
+          "package_name": "fr.imie.fluttercourse.pokemonapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126650109246-gsdulc2og2cg91diihmng6rqdocdb15c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYL_MInd0cLocyevdcnmtS-AfADJcfHoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126650109246-gsdulc2og2cg91diihmng6rqdocdb15c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
