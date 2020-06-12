@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:pokemonapp/model/pokemon_model.dart';
 import 'package:pokemonapp/service/pokemon_service_api.dart';
 
@@ -72,9 +73,14 @@ class _ListPokemonState extends State<ListPokemon> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFF1744),
         title: TextField(
+          style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
-              border: InputBorder.none, hintText: 'Rechercher un pokemon'),
+            border: InputBorder.none,
+            hintText: 'Rechercher un pokemon',
+            hintStyle: TextStyle(color: Colors.white),
+          ),
           onChanged: (String value) {
             _getPokemon(value);
           },
@@ -100,35 +106,47 @@ class _ListPokemonState extends State<ListPokemon> {
               ]
             : null,
       ),
-      body: ListView.builder(
+      body: GridView.builder(
+        padding: EdgeInsets.only(top: 25.0),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 0.7),
         itemBuilder: (context, position) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 1.0,
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/detail_pokemon',
-                    arguments: PokemonModel(
-                      id: '${_pokemons[position].id}',
-                      name: '${_pokemons[position].name}',
-                      imageUrl: '${_pokemons[position].imageUrl}',
-                      hp: '${_pokemons[position].hp}',
-                      rarity: '${_pokemons[position].rarity}',
-                    ),
-                  );
-                },
-                child: Column(
-                  children: <Widget>[
-                    Text('${_pokemons[position].name}'),
-                    Image.network(
-                      '${_pokemons[position].imageUrl}',
-                      width: 150.0,
-                    ),
-                  ],
+          return MaterialButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/detail_pokemon',
+                arguments: PokemonModel(
+                  id: '${_pokemons[position].id}',
+                  name: '${_pokemons[position].name}',
+                  imageUrl: '${_pokemons[position].imageUrl}',
+                  hp: '${_pokemons[position].hp}',
+                  rarity: '${_pokemons[position].rarity}',
                 ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(
+                  color: Colors.black,
+                  width: 8,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              margin: EdgeInsets.only(bottom: 35.0),
+              child: Column(
+                children: <Widget>[
+                  Image.network(
+                    '${_pokemons[position].imageUrl}',
+                    fit: BoxFit.cover,
+                  ),
+                  Container(height: 5.0),
+                  Text(
+                    '${_pokemons[position].name}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
             ),
           );
