@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:pokemonapp/model/pokemon_model.dart';
@@ -11,12 +12,22 @@ class ListPokemon extends StatefulWidget {
 class _ListPokemonState extends State<ListPokemon> {
   List<PokemonModel> _pokemons = [];
   int _pageNumber = 1;
+  bool _isLoading = false;
   bool _isSearch = false;
   _getPokemons(page) {
     _pokemons = [];
+    _isLoading = true;
+    print("true");
+
     PokemonServiceApi.getPokemons(page).then((pokemons) {
       setState(() {
         _pokemons.addAll(pokemons);
+        print(_pokemons);
+      });
+    }).then((value) {
+      setState(() {
+        _isLoading = false;
+        print("false");
       });
     });
   }
@@ -38,9 +49,9 @@ class _ListPokemonState extends State<ListPokemon> {
   }
 
   _downPage() {
-    if (_pageNumber == 0) {
+    if (_pageNumber == 1) {
       setState(() {
-        _pageNumber = 0;
+        _pageNumber = 1;
       });
     } else {
       setState(() {
@@ -137,15 +148,12 @@ class _ListPokemonState extends State<ListPokemon> {
               margin: EdgeInsets.only(bottom: 35.0),
               child: Column(
                 children: <Widget>[
-                  Image.network(
-                    '${_pokemons[position].imageUrl}',
-                    fit: BoxFit.cover,
-                  ),
-                  Container(height: 5.0),
                   Text(
                     '${_pokemons[position].name}',
                     style: TextStyle(color: Colors.white),
                   ),
+                  Container(height: 5.0),
+                  _cardPokemon(position),
                 ],
               ),
             ),
@@ -154,5 +162,28 @@ class _ListPokemonState extends State<ListPokemon> {
         itemCount: _pokemons.length,
       ),
     );
+  }
+
+  Widget _cardPokemon(position) {
+    if (_isLoading) {
+      print("loading");
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/loader.gif'), fit: BoxFit.cover),
+        ),
+      );
+    } else if (_pokemons[position].imageUrl != null) {
+      return CachedNetworkImage(
+        imageUrl: _pokemons[position].imageUrl,
+        errorWidget: (context, url, error) => Icon(Icons.error),
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Text(
+        'not Loading',
+        textAlign: TextAlign.center,
+      );
+    }
   }
 }

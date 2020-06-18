@@ -12,81 +12,73 @@ class _DetailPokemonState extends State<DetailPokemon> {
     final PokemonModel pokemon = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFF1744),
         title: Text('${pokemon.name}'),
+        actions: <Widget>[
+          Center(
+            child: Text(
+              '${pokemon.id}',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+          Container(
+            width: 30.0,
+          )
+        ],
       ),
       body: Container(
-        color: Colors.black12,
         child: Column(
           children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.network(
-                    '${pokemon.imageUrl}',
-                  ),
-                ],
-              ),
+            Container(
+              height: 50,
             ),
-            Expanded(
-              flex: 1,
+            Center(
               child: Container(
+                width: 300,
+                height: 500,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 8,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: EdgeInsets.only(bottom: 35.0),
                 child: Column(
                   children: <Widget>[
-                    Spacer(flex: 1),
-                    Row(
-                      children: <Widget>[
-                        Container(width: 50.0),
-                        Text(
-                          '${pokemon.name}',
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Spacer(flex: 1),
-                        Text('${pokemon.id}',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold)),
-                        Container(width: 50.0),
-                      ],
+                    Container(height: 20.0),
+                    Image.network(
+                      '${pokemon.imageUrl}',
                     ),
-                    Spacer(flex: 1),
-                    Row(
-                      children: <Widget>[
-                        Container(width: 50.0),
-                        Text('${pokemon.hp}Pv',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold)),
-                        Spacer(flex: 1),
-                        Text('${pokemon.rarity}',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.redAccent,
-                                fontWeight: FontWeight.bold)),
-                        Container(width: 50.0),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Container(width: 25),
+                          Text('${pokemon.rarity}',
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          Spacer(flex: 1),
+                          Text('${pokemon.hp}Pv',
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          Container(width: 25),
+                        ],
+                      ),
                     ),
-                    Spacer(flex: 5),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
-
-        /*Text('${pokemon.name}'),
-          Text('${pokemon.id}'),
-          Text('${pokemon.hp}'),
-          Text('${pokemon.rarity}'),
-          Image.network(
-            '${pokemon.imageUrl}',
-          )*/
       ),
     );
   }
